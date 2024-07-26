@@ -1,3 +1,5 @@
+# Print current weather for a city entered by the user
+
 import requests
 
 # Your API key (replace 'your_api_key' with the actual API key from WeatherAPI)

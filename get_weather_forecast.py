@@ -1,4 +1,4 @@
-# Get weather info from the WeatherAPI for a city entered by the user. In loop
+# Get max temperatures for the next days for a city entered by the user. User defines the number of days to forecast. In loop
 
 import requests
 
@@ -7,7 +7,7 @@ api_key = 'faba15617ef54bcba90152316242607'
 # Base url
 base_url = 'http://api.weatherapi.com/v1' 
 #Endpoint to get current weather
-endpoint = '/current.json'
+endpoint = '/forecast.json'
 
 url = base_url + endpoint
 
@@ -24,15 +24,21 @@ def get_weather(url):
     if response.status_code == 200:
         # Parse the JSON response
         data = response.json()
-        print(data)
+        
+        # Get days and max temperature for the city
+        date_temp_pairs = [(day['date'], day['day']['maxtemp_c']) for day in data['forecast']['forecastday']]
+
+        print(date_temp_pairs)
     else:
         print("Error:", response.status_code, response.text)
 
 # Get the weather data for the city in loop
 while True:
     city = str(input("Enter city: "))
-    # Form a URL for the WeatherAPI with the city name and the API key.
-    url_param = f"{url}?key={api_key}&q={city}"
+    days = int(input("Enter number of days for forecast: "))
+    # Form a URL for the WeatherAPI with the city name and the API key and number of days to forecast
+    url_param = f"{url}?key={api_key}&q={city}&days={days}"
     
     #Call the function to get the weather data
     get_weather(url_param)
+
