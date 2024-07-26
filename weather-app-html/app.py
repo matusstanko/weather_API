@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import requests
 
 app = Flask(__name__)
@@ -22,6 +22,10 @@ def get_weather(city):
         return weather_info
     else:
         return None
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/weather', methods=['GET'])
 def weather():
